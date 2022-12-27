@@ -1,11 +1,29 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from '@next/font/google'
-import styles from '../styles/Home.module.css'
-
-const inter = Inter({ subsets: ['latin'] })
+import Head from "next/head";
+import { FunctionComponent } from "react";
+import { useState } from "react";
+import { PersoInfo } from "../modules/form/screen";
 
 export default function Home() {
+  const [selectedStep, setSelectedStep] = useState<number>(1);
+  interface NavItemProps {
+    name: string;
+    stepNumber: number;
+  }
+
+  const NavItem: FunctionComponent<NavItemProps> = ({ name, stepNumber }) => {
+    const isSelected = selectedStep === stepNumber;
+
+    return (
+      <div className="flex" onClick={() => setSelectedStep(stepNumber)}>
+        <h1>{stepNumber}</h1>
+        <div>
+          <p>STEP {stepNumber}</p>
+          <h2>{name}</h2>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <>
       <Head>
@@ -14,110 +32,32 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        <div className={styles.description}>
-          <p>
-            Get started by editing&nbsp;
-            <code className={styles.code}>pages/index.tsx</code>
-          </p>
-          <div>
-            <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              By{' '}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
-              />
-            </a>
-          </div>
+      <div className="flex items-center min-h-screen">
+        <div className="flex justify-between items-center w-[90%] max-w-800px] m-auto">
+          <nav>
+            <ol>
+              <li>
+                <NavItem name="your Info" stepNumber={1} />
+              </li>
+              <li>
+                <NavItem name="Select Plan" stepNumber={2} />
+              </li>
+              <li>
+                <NavItem name="your Info" stepNumber={3} />
+              </li>
+              <li>
+                <NavItem name="Summary" stepNumber={4} />
+              </li>
+            </ol>
+          </nav>
+          <main>
+            {selectedStep === 1 && <PersoInfo />}
+            {selectedStep === 2 && <p>2</p>}
+            {selectedStep === 3 && <p>3</p>}
+            {selectedStep === 4 && <p>4</p>}
+          </main>
         </div>
-
-        <div className={styles.center}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
-          />
-          <div className={styles.thirteen}>
-            <Image
-              src="/thirteen.svg"
-              alt="13"
-              width={40}
-              height={31}
-              priority
-            />
-          </div>
-        </div>
-
-        <div className={styles.grid}>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Docs <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Find in-depth information about Next.js features and&nbsp;API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Learn <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Learn about Next.js in an interactive course with&nbsp;quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Templates <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Discover and deploy boilerplate example Next.js&nbsp;projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Deploy <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Instantly deploy your Next.js site to a shareable URL
-              with&nbsp;Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
+      </div>
     </>
-  )
+  );
 }
